@@ -2,26 +2,32 @@ var MongoClient = require('mongodb').MongoClient
     , format = require('util').format;  
 var ObjectID = require('mongodb').ObjectID;
 
-exports.db_opt = function(callback, obj, req, res){
+exports.db_opt = function(db_cp, qry_obj, req_obj){
     MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
-	if (err) throw err;
-		callback(db, obj, req, res)
-    });
-}
-exports.db_opt_cp = function(db_cp, results_cp, obj){
-	MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
-	if (err) throw err;
-		db_cp(db, obj, results_cp)
+		if (err) throw err;
+		db_cp(db, qry_obj, req_obj)
     });
 }
 
+function reply_abst(db, qry_obj, req_obj, reply_results){
+	if (req_obj.results_callback == undefined){
+		if (req_obj.reply_type == 'json') {
+			req_obj.res.send(reply_results);
+		} else {
+			req_obj.res.render('view_question', reply_results);
+		}
+	} else {
+		req_obj.results_callback(qry_obj, reply_results);
+	}
+}
+
 /////////// view 
-exports.question_view = function(db, obj, req, res){
+exports.question_view = function(db, qry_obj, req_obj){
     var collection = db.collection("question");
     collection.find().toArray(function(err, results){
-	//console.dir(results);
-	db.close();
-	res.render('view_question', {results:results});
+		db.close();
+		var reply_results = {info:"", data:results};
+		reply_abst(db, qry_obj, req_obj, reply_results);
     });
 }
 exports.question_view_single = function(db, obj, req, res){
@@ -37,13 +43,6 @@ exports.question_view_single = function(db, obj, req, res){
     });
 }
 
-//sio
-exports.question_list = function(db, obj, callback){
-	var collection = db.collection("question");
-	collection.find().toArray(function(err, results){
-		callback({"question_list":results}, obj);
-	});
-}
 
 //////////// modify
 exports.question_modify_get = function(db, obj, req, res){
@@ -73,15 +72,16 @@ exports.question_modify_save = function(db, obj, req, res){
 }
 
 ////////////// create
-exports.question_insert = function(db, obj, req, res){
+exports.question_insert = function(db, qry_obj, req_obj){
     var collection = db.collection("question");
-    collection.insert(obj, {w:1}, function(err, objects){
-	if (err) console.warm(err.message);
-	if (err && err.message.indexOf('E11000 ') !== -1){
-	    // this _id was already inserted in the database
-	}
-	//console.log('== question_insert');
-	res.redirect('/view/question/');
+    collection.insert(qry_obj, {w:1}, function(err, objects){
+		if (err) console.warm(err.message);
+		if (err && err.message.indexOf('E11000 ') !== -1){
+	    	// this _id was already inserted in the database
+		}
+		db.close();
+		var reply_results = {info:"", data:objects};
+		reply_abst(db, qry_obj, req_obj, reply_results);
     });
 }
 exports.question_insert_replay = function(db, obj, req, res){

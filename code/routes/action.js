@@ -6,70 +6,78 @@ var db = require('./db.js')
 var ObjectID = require('mongodb').ObjectID;
 
 exports.action = function(req, res){
+	reply_type = req.param("reply_type"); // can only be html or json so far
     action = req.param('action');
     content = req.param('content');
     if (action == undefined){
-	res.send("query action should == view | create | follow | modify");
+		res.send("query action should == view | create | follow | modify");
     }
     if (content == undefined){
-	res.send("action is seted, but query content should == question");
+		res.send("action is seted, but query content should == question");
     }
+    if (reply_type == undefined){
+    	reply_type = "html";
+    } else if (reply_type.toLowerCase() != "json") {
+    	reply_type = "html";
+    }
+    var results_callback = undefined;
+    var req_obj = {reply_type:reply_type, action:action, content:content, req:req, res:res, results_callback:results_callback}
     switch (action.toLowerCase()){
-    case 'view':
-	action_view(action, content, req, res);
-	break
-    case 'create':
-	action_create(action, content, req, res);
-	break
-    case 'modify':
-	action_modify(action, content, req, res);
-	break
-    case 'follow':
-	res.send("hello");
-	break
-    default:
-	res.send("query action should == view | create | follow | modify, you passed in "+req.param('action'));
+    	case 'view':
+			action_view(req_obj);
+			break
+    	case 'create':
+			action_create(req_obj);
+			break
+    	case 'modify':
+			action_modify(req_obj, req, res);
+			break
+    	case 'follow':
+			res.send("hello");
+			break
+    	default:
+			res.send("query action should == view | create | follow | modify, you passed in "+req.param('action'));
     }
 };
 
-function action_view(action, content, req, res){
+function action_view(req_obj){
     switch (content.toLowerCase()) {
-    case 'question':
-	var obj_question = {};
-	db.db_opt(db.question_view, obj_question, req, res);
-	break
-    case 'question_single':
-	var m_id = req.param('m_id');
-	var obj_question = {_id:new ObjectID(m_id)};
-	db.db_opt(db.question_view_single, obj_question, req, res);
-	break
-    default:
+    	case 'question':
+			var obj_question = {};
+			db.db_opt(db.question_view, obj_question, req_obj);
+			break
+    	case 'question_single':
+			var m_id = req.param('m_id');
+			var obj_question = {_id:new ObjectID(m_id)};
+			db.db_opt(db.question_view_single, obj_question, req_obj, req, res);
+			break
+    	default:
     }
 }
 
-function action_create(action, content, req, res){
+function action_create(req_obj){
     switch (content.toLowerCase()) {
-    case 'question_init':
-	res.render('create_question.jade', {});
-	break
-    case 'question_init_gmap':
-	res.render('create_question_gmap.jade', {});
-	break
-    case 'question_init_gmap_full':
-	res.render('create_question_gmap_full.jade', {});
-	break
-    case 'question_post':
-	console.log(req.query)
-	console.log(req.body)
-	var title = req.param('title');
-	var body = req.param('body');
-	var tags = req.param('tags');
-	var latlng = req.param('latlng');
-	var obj_question = {refID:'', title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
-	console.log(obj_question);
-	db.db_opt(db.question_insert, obj_question, req, res);
-	//create_question_post(req, res);
-	break
+    	case 'question_init':
+			res.render('create_question.jade', {});
+			break
+    	case 'question_init_gmap':
+			res.render('create_question_gmap.jade', {});
+			break
+    	case 'question_init_gmap_full':
+			res.render('create_question_gmap_full.jade', {});
+			break
+    	case 'question_post':
+			console.log(req_obj.req.query)
+			console.log(req_obj.req.body)
+			var title = req_obj.req.param('title');
+			var body = req_obj.req.param('body');
+			var tags = req_obj.req.param('tags');
+			var latlng = req_obj.req.param('latlng');
+			var obj_question = {refID:'', title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
+			console.log(obj_question);
+			db.db_opt(db.question_insert, obj_question, req_obj);
+			//create_question_post(req, res);
+			break
     case 'question_reply':
 	console.log(req.query)
 	console.log(req.body)
@@ -86,7 +94,7 @@ function action_create(action, content, req, res){
     }
 }
 
-function action_modify(action, content, req, res){
+function action_modify(req_obj, req, res){
     var m_id = req.param('m_id');
     if (m_id == undefined){
 	res.send("action and content is setted, but query m_id is not setted");

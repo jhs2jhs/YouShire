@@ -21,16 +21,17 @@ function sio_question(io){
 		socket.emit("question_init", {hello:"world"});
 		socket.on("question_list_request", function(data){
 			//console.log(data);
-			var obj = {socket:socket};
-			db.db_opt_cp(db.question_list, sio_question_list, obj);
+			var qry_obj = {socket:socket};
+			var req_obj = {reply_type:"json", action:"view", content:"question", req:"", res:"", results_callback:sio_question_list};
+			db.db_opt(db.question_view, qry_obj, req_obj);
 		});
 	});
 }
 
-function sio_question_list(results_obj, socket_obj){
-	var results = results_obj.question_list;
+function sio_question_list(qry_obj, reply_results){
+	var results = reply_results.data;
 	//console.log(results);
-	socket = socket_obj.socket;
+	socket = qry_obj.socket;
 	socket.emit("question_list_response", {results:results});
 }
 

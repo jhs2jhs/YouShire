@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='/javascripts/replys.js') 
+  h1 View Question Single
+  a(href='/view/question/') View all question
+  div
+    for r in results
+      div
+        label Title
+          div
+            textarea(placeholder="Title", name='title', disabled) #{r.title}
+      div
+        label Body
+          div
+            textarea(placeholder="Body", name='body', disabled) #{r.body}
+      div
+        label Tags
+          div
+            textarea(placeholder="Tags", name='tags', disabled) #{r.tags}
+      div
+        label LatLng
+          div
+            textarea(placeholder="LatLng", name='latlng', disabled) #{r.latlng}
+      div
+          button(onclick="location.href='/modify/question_get/?m_id=#{r._id}'") Modify
+          button(onclick="location.href='/modify/question_delete/?m_id=#{r._id}'") Delete
+
+      h2 Reply & Answer
+      div
+        for reply in replys
+          div
+            label Votes:  #{reply.votes}
+          div
+            label Answer:
+              div
+                #{reply.body}
+          div
+            button(onclick="location.href='/vote/question_get/?m_id=#{reply._id}&vote_type=up'") VoteUp
+            button(onclick="location.href='/vote/question_get/?m_id=#{reply._id}&vote_type=down'") VoteDown
+            button(onclick="location.href='/modify/question_get/?m_id=#{reply._id}'") Modify
+            button(onclick="location.href='/modify/question_delete/?m_id=#{reply._id}'") Delete
+
+      h2 Put your answer
+      div
+        form(action='/create/question_reply/', method='post')
+          input(type='hidden', name='ref_id', value='#{r._id}')
+          div
+            label Answer
+              div
+                textarea(placeholder="Input your answer", name="body") 
+          div
+            label LatLng
+              div
+                textarea(placeholder="LatLng", name="latlng") 
+          div
+            input(type='submit', value='Put')

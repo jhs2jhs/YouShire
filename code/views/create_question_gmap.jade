@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1 Create Question
+  form(action='/create/question_post/',method='post')
+    input(type='hidden', name='action', value='create_question_post')
+    div
+      label Title
+        div
+          textarea(placeholder="Title", name='title')
+    div
+      label Body
+        div
+          textarea(placeholder="Body", name='body')
+    div
+      label Tags
+        div
+          textarea(placeholder="Tags", name='tags')
+    div
+      label LatLng
+        div
+          textarea(placeholder="LatLng", name='latlng', id='tag_latlng')
+    div 
+      input(type='submit', value='Submit')
+    div(id="map-canvas", style="width:100%; height:100%")
+    script(type='text/javascript', src='/javascripts/gmap.js')  
+
+
+
+
+
+
+
+
+

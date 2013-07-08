@@ -1,0 +1,28 @@
+doctype 5
+html
+  head  
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/socket.io/socket.io.js')
+    script(type='text/javascript').
+      function hello(){
+        //var tag = document.getElementById('myp');
+        //tag.value = "cool";
+        console.dir(location.host);
+        //var socket = io.connect('http://192.168.1.102:3000');
+        var socket = io.connect(location.origin);
+        socket.on('news', function (data) {
+          console.log(data);
+          //window.alert('hello');
+          var tag = document.getElementById('myp');
+          tag.value = data.time;
+          console.log(tag.value);
+          socket.emit('my other event', { my: 'data' });
+        });
+      }
+  body(onload="hello();") 
+    h1 Socket.IO test 
+    a(href='/view/question/') View all question
+    div(id='mydiv')
+      textarea(id='myp')
+      

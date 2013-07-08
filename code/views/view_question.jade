@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  h1 View Question
+  a(href='/create/question_init/') Create A New Question
+  hr
+  a(href='/create/question_init_gmap/') Create A New Question With GMap
+  hr
+  table(border=1)
+    tr 
+      th Title
+      th Body
+      th LatLng
+      th Tags
+      th Action
+    for r in results
+      tr
+        td #{r.title}
+        td #{r.body}
+        td #{r.latlng}
+        td #{r.tags}
+        td
+          button(onclick="location.href='/view/question_single/?m_id=#{r._id}'") View
+          button(onclick="location.href='/modify/question_get/?m_id=#{r._id}'") Modify
+          button(onclick="location.href='/modify/question_delete/?m_id=#{r._id}'") Delete
+
+
+
+
+
+
+
+
+

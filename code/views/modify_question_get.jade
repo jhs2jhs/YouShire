@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  h1 Modify Question
+  for r in results
+    form(action='/modify/question_save/',method='post')
+      input(type='hidden', name='m_id', value='#{r._id}')
+      div
+        label Title
+          div
+            textarea(placeholder="Title", name='title') #{r.title}
+      div
+        label Body
+          div
+            textarea(placeholder="Body", name='body') #{r.body}
+      div
+        label Tags
+          div
+            textarea(placeholder="Tags", name='tags') #{r.tags}
+      div
+        label LatLng
+          div
+            textarea(placeholder="LatLng", name='latlng') #{r.latlng}
+      div 
+        input(type='submit', value='Save')
+
+
+
+
+
+
+
+
+

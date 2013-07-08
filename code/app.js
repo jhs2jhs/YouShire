@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , actions = require('./routes/action')
+  , observer = require('./routes/observer')
   , http = require('http')
 , path = require('path');
 
@@ -30,7 +31,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.all('/observer/:content/', observer.action);
 app.all('/:action/:content/', actions.action);
+
 
 
 

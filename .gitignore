@@ -15,3 +15,4 @@ npm-debug.log
 
 source/*
 code/node_modules/*
+*copy*

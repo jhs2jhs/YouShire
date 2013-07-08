@@ -5,7 +5,13 @@ var ObjectID = require('mongodb').ObjectID;
 exports.db_opt = function(callback, obj, req, res){
     MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
 	if (err) throw err;
-	callback(db, obj, req, res)
+		callback(db, obj, req, res)
+    });
+}
+exports.db_opt_cp = function(db_cp, results_cp, obj){
+	MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
+	if (err) throw err;
+		db_cp(db, obj, results_cp)
     });
 }
 
@@ -29,6 +35,14 @@ exports.question_view_single = function(db, obj, req, res){
 	    res.render('view_question_single', {results:results, replys:replys});
 	})
     });
+}
+
+//sio
+exports.question_list = function(db, obj, callback){
+	var collection = db.collection("question");
+	collection.find().toArray(function(err, results){
+		callback({"question_list":results}, obj);
+	});
 }
 
 //////////// modify

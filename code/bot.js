@@ -62,6 +62,25 @@ function question_create_response_process(callback, vars, response, body){
     callback();
 }
 
+function question_list_get(ref_id){
+    var lat = mylat + (1 - Math.random());
+    var lng = mylng + (1 - Math.random());
+    var title = 'R:'+(new Date().toString());
+    var body = 'this is my answer : '+ title;
+    var tags = 'mylocation';
+    var latlng = (lat+','+lng);
+    var url_q = querystring.stringify({title:title, body:body, tags:tags, latlng:latlng});
+    var url = '';
+    if (ref_id == ''){
+    url = myhost+'/create/question_post/?'+url_q;
+    } else {
+    url = myhost+'/create/question_reply?'+url_q;
+    }
+    var vars = {uri:url};
+    debug('url:'+vars.uri);
+    http_request(question_create_callback, question_create_response_process, vars);
+}
+
 var i = 0; 
 function loop(){
     debug('loop:'+i);

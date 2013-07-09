@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 Modify Question
-  for r in results
+  for r in data
     form(action='/modify/question_save/',method='post')
       input(type='hidden', name='m_id', value='#{r._id}')
       div

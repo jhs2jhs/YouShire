@@ -4,6 +4,7 @@ block content
   h1 Create Question
   form(action='/create/question_post/',method='post')
     input(type='hidden', name='action', value='create_question_post')
+    input(type='hidden', name='reply_type', value='html')
     div
       label Title
         div

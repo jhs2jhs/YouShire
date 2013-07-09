@@ -1,19 +1,13 @@
 var querystring = require('querystring');
 var domain = require('domain').create();
 var request = require('request');
+var myutil = require("./routes/myutil.js");
 
 var mylat = 30.2835;
 var mylng = 120.2623;
 var myhost = 'http://localhost:3000';
 
-function debug(msg){
-    console.log('\tDEBUG:'+msg);
-}
-function warm(msg){
-    console.log('==WARM:'+msg);
-}
-
-function http_request(callback, response_process, vars){
+function http_request(err_callback, response_process, vars){
     var r_options = {
 	uri: vars.uri,
 	method:'GET',
@@ -22,72 +16,106 @@ function http_request(callback, response_process, vars){
 	headers:{'Accept':'text/html/json'}
     }
     var request_function = function(error, response, body){
+        //myutil.debug(! error && response.statusCode==200);
         if (! error && response.statusCode==200){
-	       response_process(callback, vars, response, body)
+	       response_process(err_callback, vars, response, body)
         } else {
 	       if (response != undefined){
-		      warm(response.statusCode);
+		      myutil.error(response.statusCode);
 	       }
-	       callback(vars, response, body);
+	       err_callback(vars, response, body);
 	   }
     }
     request(r_options, request_function);
 }
 
+/* 
+ * question & replys create 
+ */
 function question_create(ref_id){
     var lat = mylat + (1 - Math.random());
     var lng = mylng + (1 - Math.random());
-    var title = 'q:'+(new Date().toString());
-    var body = 'this is my answer : '+ title;
-    var tags = 'mylocation';
+    var tags = 'mylocation';    
     var latlng = (lat+','+lng);
-    var url_q = querystring.stringify({title:title, body:body, tags:tags, latlng:latlng, reply_type:"json"});
+    var reply_type = "json";
     var url = '';
+    var vars = {};
+    var url_q = querystring.stringify({ref_id:ref_id, title:title, body:body, tags:tags, latlng:latlng, reply_type:reply_type});
     if (ref_id == ''){
-	   url = myhost+'/create/question_post/?'+url_q;
+        var title = 'Q:'+(new Date().toString());
+        var body = 'this is my answer : '+ title;
+        url = myhost+'/create/question_post/?'+url_q;
+        vars.uri = url
+        vars.content = "question";
     } else {
-	   url = myhost+'/create/question_reply?'+url_q;
+        var title = 'R:'+(new Date().toString());
+        var body = 'this is my rely : '+ title;
+        url = myhost+'/create/question_reply/?'+url_q;
+        vars.uri = url;
+        vars.content = "replys";
     }
-    var vars = {uri:url};
-    //debug('url:'+vars.uri);
-    http_request(question_create_callback, question_create_response_process, vars);
+    http_request(question_create_err_callback, question_create_response_process, vars);
 }
 
-function question_create_callback(vars, response, body){
-    debug('question_create_cp');
-    debug(response);
-    debug(body);
+function question_create_err_callback(vars, response, body){
+    myutil.debug('question_create_cp');
+    myutil.debug(response);
+    myutil.debug(body);
 }
 
 function question_create_response_process(callback, vars, response, body){
-    debug(body.toString());
-    debug(response.toString());
+    myutil.debug(body.toString());
+    myutil.debug(response.toString());
     callback();
 }
 
-function question_list_get(ref_id){
-    var lat = mylat + (1 - Math.random());
-    var lng = mylng + (1 - Math.random());
-    var title = 'R:'+(new Date().toString());
-    var body = 'this is my answer : '+ title;
-    var tags = 'mylocation';
-    var latlng = (lat+','+lng);
-    var url_q = querystring.stringify({title:title, body:body, tags:tags, latlng:latlng});
+/* 
+ * question & replys view 
+ */
+function question_view(ref_id){
+    var reply_type = "json";
     var url = '';
+    var vars = {};
+    var url_q = querystring.stringify({m_id:ref_id, reply_type:reply_type});
     if (ref_id == ''){
-        url = myhost+'/create/question_post/?'+url_q;
+        url = myhost+'/view/question_all/?'+url_q;
+        vars.uri = url;
+        vars.content = "question";
     } else {
-        url = myhost+'/create/question_reply?'+url_q;
+        url = myhost+'/view/question_replys/?'+url_q;
+        vars.uri = url;
+        vars.content = "replys";
     }
-    var vars = {uri:url};
-    debug('url:'+vars.uri);
-    http_request(question_create_callback, question_create_response_process, vars);
+    http_request(question_view_err_callback, question_view_response_process, vars);
+}
+
+function question_view_err_callback(vars, response, body){
+    myutil.debug('question_view_err_cp');
+    myutil.debug(response);
+    //myutil.debug(body);
+}
+
+function question_view_response_process(callback, vars, response, body){
+    myutil.debug("question_view_response_cp");
+    var r = JSON.parse(body);
+    data = r.data;
+    var i = Math.floor(Math.random()*data.length);
+    var p = Math.random();
+    if (p > 0.5){
+        myutil.info(i, p);
+        var msg = data[i];
+        question_create(msg._id);
+    } else {
+
+    }
 }
 
 var i = 0; 
 function loop(){
-    debug('loop:'+i);
-    question_create('')
+    myutil.info('loop:'+i);
+    //question_create('')
+    //question_create("51dba2960308f60417000002");
+    question_view("");
     setTimeout(loop, 1000);        
     i = i + 1;
 }

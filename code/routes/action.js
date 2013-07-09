@@ -4,6 +4,7 @@
  */
 var db = require('./db.js')
 var ObjectID = require('mongodb').ObjectID;
+var myutil = require("./myutil.js");
 
 /*
 URL_REQUEST_EXAMPLE = {
@@ -13,6 +14,10 @@ URL_REQUEST_EXAMPLE = {
 	results_type: [undefined | callback],
 	find_limit: [10 | n],
 	m_id: xxxxxxxxxxxxxxx,
+	title:'';
+	body:'';
+	tags:'';
+	latlng:'';
 	// following are adding by system after URL processing.
 	render_page: [view_question | ...],
 	qry_obj: {
@@ -25,6 +30,9 @@ URL_REQUEST_EXAMPLE = {
 		data: {
 	
 		}
+	},
+	sio:{
+		socket:undefined,
 	}
 }
 */
@@ -40,8 +48,10 @@ function get_req_obj(){
 		find_limit:0,
 		m_id:undefined,
 		render_page:undefined,
+		redirect:undefined,
 		qry_obj:{},
 		reply_results:{},
+		sio:{socket:undefined}
 	};
 	return req_obj;
 }
@@ -79,7 +89,7 @@ exports.action = function(req, res){
 			action_create(req_obj);
 			break
     	case 'modify':
-			action_modify(req_obj, req, res);
+			action_modify(req_obj);
 			break
     	case 'follow':
 			res.send("hello");
@@ -97,82 +107,90 @@ function action_view(req_obj){
 			req_obj.qry_obj = {};
 			db.db_opt(db.question_view_all, req_obj);
 			break
-		case 'question_limited':
-			var find_limit = req_obj.param('find_limit');
-			var obj_question = {render_page:"view_question", find_limit:find_limit};
-			db.db_opt(db.question_view_limit, obj_question, req_obj);
+		case 'question_limit':
+			req_obj.find_limit = parseInt(req_obj.req.param('find_limit'));
+			req_obj.render_page = "view_question";
+			req_obj.qry_obj = {};
+			db.db_opt(db.question_view_limit, req_obj);
 			break
     	case 'question_single':
-			var m_id = req.param('m_id');
-			var obj_question = {_id:new ObjectID(m_id)};
-			db.db_opt(db.question_view_single, obj_question, req_obj, req, res);
+    		req_obj.find_limit = 1;
+    		req_obj.render_page = "view_question_single";
+			req_obj.m_id = req_obj.req.param('m_id');
+			req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
+			db.db_opt(db.question_view_single, req_obj);
+			break
+		case 'question_replys':
+			req_obj.reply_type = "json"; // can only reply with JSON.
+    		//req_obj.render_page = "view_question_reply";
+			req_obj.m_id = req_obj.req.param('m_id');
+			req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
+			db.db_opt(db.question_view_replys, req_obj);
 			break
     	default:
     }
 }
 
 function action_create(req_obj){
-    switch (content.toLowerCase()) {
+    switch (req_obj.content.toLowerCase()) {
     	case 'question_init':
-			res.render('create_question.jade', {});
+			req_obj.res.render('create_question.jade', {});
 			break
     	case 'question_init_gmap':
-			res.render('create_question_gmap.jade', {});
+			req_obj.res.render('create_question_gmap.jade', {});
 			break
     	case 'question_init_gmap_full':
-			res.render('create_question_gmap_full.jade', {});
+			req_obj.res.render('create_question_gmap_full.jade', {});
 			break
     	case 'question_post':
-			console.log(req_obj.req.query)
-			console.log(req_obj.req.body)
+    		req_obj.render_page = "view_question_single";
 			var title = req_obj.req.param('title');
 			var body = req_obj.req.param('body');
 			var tags = req_obj.req.param('tags');
 			var latlng = req_obj.req.param('latlng');
-			var obj_question = {refID:'', title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
-			console.log(obj_question);
-			db.db_opt(db.question_insert, obj_question, req_obj);
-			//create_question_post(req, res);
+			req_obj.qry_obj = {refID:'', title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
+			db.db_opt(db.question_create, req_obj);
 			break
-    case 'question_reply':
-	console.log(req.query)
-	console.log(req.body)
-	var title = req.param('title');
-	var body = req.param('body');
-	var tags = req.param('tags');
-	var latlng = req.param('latlng');
-	var ref_id = req.param('ref_id');
-	var obj_question = {refID:new ObjectID(ref_id), title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
-	console.log(obj_question);
-	db.db_opt(db.question_insert_replay, obj_question, req, res);
-	break
-    default:
+    	case 'question_reply':
+			var title = req_obj.req.param('title');
+			var body = req_obj.req.param('body');
+			var tags = req_obj.req.param('tags');
+			var latlng = req_obj.req.param('latlng');
+			var ref_id = req_obj.req.param('ref_id');
+			myutil.debug("reply");
+			req_obj.qry_obj = {refID:new ObjectID(ref_id), title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
+			db.db_opt(db.question_create_replay, req_obj);
+			break
+    	default:
     }
 }
 
-function action_modify(req_obj, req, res){
-    var m_id = req.param('m_id');
-    if (m_id == undefined){
-	res.send("action and content is setted, but query m_id is not setted");
+function action_modify(req_obj){
+    req_obj.m_id = req_obj.req.param('m_id');
+    if (req_obj.m_id == undefined){
+		req_obj.res.send("action and content is setted, but query m_id is not setted");
     }
-    switch (content.toLowerCase()) {
-    case 'question_get':
-	var obj_question = {_id:new ObjectID(m_id)};
-	db.db_opt(db.question_modify_get, obj_question, req, res);
-	break
-    case 'question_delete':
-	var obj_question = {_id:new ObjectID(m_id)};
-	db.db_opt(db.question_modify_delete, obj_question, req, res);
-	break
-    case 'question_save':
-	 var title = req.param('title');
-	var body = req.param('body');
-	var tags = req.param('tags');
-	var latlng = req.param('latlng');
-	var obj_question = {criteria: {_id:new ObjectID(m_id)}, objNew:{$set:{title:title, body:body, tags:tags, latlng:latlng}} };
-	db.db_opt(db.question_modify_save, obj_question, req, res);
-	break
-    default:
+    switch (req_obj.content.toLowerCase()) {
+    	case 'question_get':
+    		req_obj.render_page = "modify_question_get";
+			req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
+			db.db_opt(db.question_modify_get, req_obj);
+			break
+    	case 'question_delete':
+    		req_obj.redirect = '/view/question_all/?reply_type='+req_obj.reply_type;
+			req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
+			db.db_opt(db.question_modify_delete, req_obj);
+			break
+    	case 'question_save':
+    	    req_obj.redirect = '/view/question_single/?reply_type='+req_obj.reply_type+"&m_id="+req_obj.m_id;
+	 		var title = req_obj.req.param('title');
+			var body = req_obj.req.param('body');
+			var tags = req_obj.req.param('tags');
+			var latlng = req_obj.req.param('latlng');
+			req_obj.qry_obj = {criteria: {_id:new ObjectID(req_obj.m_id)}, objNew:{$set:{title:title, body:body, tags:tags, latlng:latlng}} };
+			db.db_opt(db.question_modify_save, req_obj);
+			break
+    	default:
     }
 }
 

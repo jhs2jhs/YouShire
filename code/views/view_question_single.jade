@@ -1,11 +1,12 @@
-extends layout
+extends layout_sio
 
 block content
-  script(type='text/javascript', src='/javascripts/replys.js') 
+  script(type='text/javascript', src='/javascripts/replys.js')
   h1 View Question Single
-  a(href='/view/question/') View all question
+  a(href='/view/question_all/') View all question
   div
-    for r in results
+    for r in data
+      input(type="hidden", id="question_id", value="#{r._id}")
       div
         label Title
           div
@@ -27,8 +28,9 @@ block content
           button(onclick="location.href='/modify/question_delete/?m_id=#{r._id}'") Delete
 
       h2 Reply & Answer
+      div(id="question_replys_list")
       div
-        for reply in replys
+        for reply in data
           div
             label Votes:  #{reply.votes}
           div
@@ -45,6 +47,7 @@ block content
       div
         form(action='/create/question_reply/', method='post')
           input(type='hidden', name='ref_id', value='#{r._id}')
+          input(type='hidden', name='reply_type', value='json')
           div
             label Answer
               div

@@ -5,24 +5,69 @@
 var db = require('./db.js')
 var ObjectID = require('mongodb').ObjectID;
 
+/*
+URL_REQUEST_EXAMPLE = {
+	action: [view | create | modify | comment],
+	content: [question_all | question_limited | question_single],
+	reply_type: [html | json],
+	results_type: [undefined | callback],
+	find_limit: [10 | n],
+	m_id: xxxxxxxxxxxxxxx,
+	// following are adding by system after URL processing.
+	render_page: [view_question | ...],
+	qry_obj: {
+	
+	},
+	reply_results: {
+		info:{
+	
+		},
+		data: {
+	
+		}
+	}
+}
+*/
+function get_req_obj(){
+	var req_obj = {
+		req:undefined,
+		res:undefined,
+		action:undefined,
+		content:undefined,
+		reply_type:undefined,
+		results_callback:undefined,
+		find_limit:0,
+		m_id:undefined,
+		render_page:undefined,
+		qry_obj:{},
+		reply_results:{},
+	}
+}
+
+// routing distribution : source code entrance. 
 exports.action = function(req, res){
-	reply_type = req.param("reply_type"); // can only be html or json so far
-    action = req.param('action');
-    content = req.param('content');
-    if (action == undefined){
+	var req_obj = new get_req_obj();
+	req_obj.reply_type = req.param("reply_type"); // define which format it should reply with. it can only be html or json so far
+    req_obj.action = req.param('action'); // view | create | follow | modify
+    req_obj.content = req.param('content');
+    if (req_obj.action == undefined){
 		res.send("query action should == view | create | follow | modify");
     }
-    if (content == undefined){
+    if (req_obj.content == undefined){
 		res.send("action is seted, but query content should == question");
     }
-    if (reply_type == undefined){
-    	reply_type = "html";
-    } else if (reply_type.toLowerCase() != "json") {
-    	reply_type = "html";
+    if (req_obj.reply_type == undefined){ // if not specify, it would reply html format
+    	req_obj.reply_type = "html";
+    } else if (req_obj.reply_type.toLowerCase() != "json") {
+    	req_obj.reply_type = "html";
+    } else {
+    	req_obj.reply_type = 'json';
     }
-    var results_callback = undefined;
-    var req_obj = {reply_type:reply_type, action:action, content:content, req:req, res:res, results_callback:results_callback}
-    switch (action.toLowerCase()){
+    req_obj.results_callback = undefined; // external request would always want res.reply, internal request would always want callback to process the results. 
+    req_obj.req = req;
+    req_obj.res = res;
+     
+    switch (req_obj.action.toLowerCase()){
     	case 'view':
 			action_view(req_obj);
 			break
@@ -40,11 +85,19 @@ exports.action = function(req, res){
     }
 };
 
+
 function action_view(req_obj){
-    switch (content.toLowerCase()) {
-    	case 'question':
+    switch (req_obj.content.toLowerCase()) {
+    	case 'question_all':
 			var obj_question = {};
-			db.db_opt(db.question_view, obj_question, req_obj);
+			req_obj.render_page = "view_question";
+			req_obj.qry_obj = obj_question;
+			db.db_opt(db.question_view_all, req_obj);
+			break
+		case 'question_limited':
+			var find_limit = req_obj.param('find_limit');
+			var obj_question = {render_page:"view_question", find_limit:find_limit};
+			db.db_opt(db.question_view_limit, obj_question, req_obj);
 			break
     	case 'question_single':
 			var m_id = req.param('m_id');

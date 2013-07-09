@@ -29,12 +29,11 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// routing allocation, ** here is the only place to modify the source code.**
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.all('/observer/:content/', observer.action);
 app.all('/:action/:content/', actions.action);
-
-
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){
@@ -42,12 +41,10 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 
-// socket.io
-//var server = require('http').createServer(app);
+// socket.io configuration
 var io = require('socket.io').listen(server);
 app.get('/hello', function(req, res){
     res.render('sio_test', {});
 });
-
 var sio = require('./routes/sio');
 sio.mysio(io);

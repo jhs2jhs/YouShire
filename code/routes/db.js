@@ -2,32 +2,42 @@ var MongoClient = require('mongodb').MongoClient
     , format = require('util').format;  
 var ObjectID = require('mongodb').ObjectID;
 
-exports.db_opt = function(db_cp, qry_obj, req_obj){
+
+// wrapper function for all main entrance
+exports.db_opt = function(db_cp, req_obj){
     MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
 		if (err) throw err;
-		db_cp(db, qry_obj, req_obj)
+		db_cp(db, req_obj)
     });
 }
-
-function reply_abst(db, qry_obj, req_obj, reply_results){
-	if (req_obj.results_callback == undefined){
+// abstract function to process for reply back.
+function reply_abst(db, req_obj){
+	if (req_obj.results_callback == undefined){ // like external request
 		if (req_obj.reply_type == 'json') {
-			req_obj.res.send(reply_results);
+			req_obj.res.send(req_obj.reply_results);
 		} else {
-			req_obj.res.render('view_question', reply_results);
+			req_obj.res.render(req_obj.render_page, req_obj.reply_results);
 		}
 	} else {
-		req_obj.results_callback(qry_obj, reply_results);
+		req_obj.results_callback(req_obj.qry_obj, req_obj.reply_results);
 	}
+}
+var global_host = "http://localhost:3000";
+var global_info = {
+	"view all questions":global_host+"/view/question_all/?reply_type=json",
+	"view single question":global_host+"/view/question_single/?m_id=???&reply_type=json",
+	"view limited number of questions":global_host+"/view/question_limited/?find_limit=10&reply_type=json",
+	"":""
 }
 
 /////////// view 
-exports.question_view = function(db, qry_obj, req_obj){
+exports.question_view_all = function(db, req_obj){
     var collection = db.collection("question");
     collection.find().toArray(function(err, results){
 		db.close();
-		var reply_results = {info:"", data:results};
-		reply_abst(db, qry_obj, req_obj, reply_results);
+		var reply_results = {info:global_info, data:results};
+		req_obj.reply_results = reply_results;
+		reply_abst(db, req_obj);
     });
 }
 exports.question_view_single = function(db, obj, req, res){

@@ -19,7 +19,7 @@ function reply_abst(db, req_obj){
 			req_obj.res.render(req_obj.render_page, req_obj.reply_results);
 		}
 	} else {
-		req_obj.results_callback(req_obj.qry_obj, req_obj.reply_results);
+		req_obj.results_callback(req_obj);
 	}
 }
 var global_host = "http://localhost:3000";
@@ -35,8 +35,7 @@ exports.question_view_all = function(db, req_obj){
     var collection = db.collection("question");
     collection.find().toArray(function(err, results){
 		db.close();
-		var reply_results = {info:global_info, data:results};
-		req_obj.reply_results = reply_results;
+		req_obj.reply_results = {info:global_info, data:results};
 		reply_abst(db, req_obj);
     });
 }

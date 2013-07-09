@@ -28,6 +28,7 @@ URL_REQUEST_EXAMPLE = {
 	}
 }
 */
+
 function get_req_obj(){
 	var req_obj = {
 		req:undefined,
@@ -41,8 +42,11 @@ function get_req_obj(){
 		render_page:undefined,
 		qry_obj:{},
 		reply_results:{},
-	}
+	};
+	return req_obj;
 }
+
+exports.get_req_obj = get_req_obj;
 
 // routing distribution : source code entrance. 
 exports.action = function(req, res){
@@ -89,9 +93,8 @@ exports.action = function(req, res){
 function action_view(req_obj){
     switch (req_obj.content.toLowerCase()) {
     	case 'question_all':
-			var obj_question = {};
 			req_obj.render_page = "view_question";
-			req_obj.qry_obj = obj_question;
+			req_obj.qry_obj = {};
 			db.db_opt(db.question_view_all, req_obj);
 			break
 		case 'question_limited':

@@ -17,15 +17,31 @@ function get_lng_random(){
 }
  
 var myhost = 'http://localhost:3000';
-var p_new_question = 0.5;
+
+
+// uers are likely to make a reply. 
 var ps = {
-    new_question:0.5,
-    no_interest_view:0.5,
-    interst_single:0.5,
-    interst_reply:0.5,
-    question_new_question:0.5,
+    p_nq: 0.9, //make a new question once login in
+    p_npr_l: 0.5, //leave after make a new question || no_interest_view:0.5,
+    p_np_vp: 0.5, // view all question after make a new questio. the oposite p will be to view replys to a question || interst_single:0.5,
+    p_vpr_l: 0.1, // leave after view a reply or question. 
+    p_vpr_vp: 0.1, // interesting on a particular question after viewing all questions. 
+    p_vpr_vp_vr: 0.1, // continue to view question after viewing ||  interst_reply:0.5,
+    p_vpr_vp_nq : 0.9, // continue to create question or reply after viewing || question_new_question:0.5,
 };
 
+/*
+// median
+var ps = {
+    p_nq: 0.5, //make a new question once login in
+    p_npr_l: 0.5, //leave after make a new question || no_interest_view:0.5,
+    p_np_vp: 0.5, // view all question after make a new questio. the oposite p will be to view replys to a question || interst_single:0.5,
+    p_vpr_l: 0.5, // leave after view a reply or question. 
+    p_vpr_vp: 0.5, // interesting on a particular question after viewing all questions. 
+    p_vpr_vp_vr: 0.5, // continue to view question after viewing ||  interst_reply:0.5,
+    p_vpr_vp_nq : 0.5, // continue to create question or reply after viewing || question_new_question:0.5,
+};
+*/
 
 function http_request(err_callback, response_process, vars){
     var r_options = {
@@ -90,14 +106,16 @@ function question_create_response_process(callback, vars, response, body){
     var m_id = data[0]._id;
     var ref_id = vars.ref_id;
     var p = Math.random();
-    if (p > ps.question_create_out) {
+    if (p > ps.p_npr_l) {
         // leave after creating a question or reply
         return
     } else {
         var p = Math.random();
-        if (p > ps.question_create_view_question) {
-            question_view();
+        if (p > ps.p_npr_vp) {
+            // view all question after creating a quetion ot reply. 
+            question_view("");
         } else {
+            // view all the reply after creating a queston or reply.
             if (vars.content == "question") {
                 question_view(m_id);
             } else {
@@ -137,22 +155,23 @@ function question_view_err_callback(vars, response, body){
 function question_view_response_process(callback, vars, response, body){
     myutil.debug("question_view", vars.content, vars.ref_id);
     var p = Math.random();
-    if (p < ps.no_interest_view){
+    if (p < ps.p_vpr_l){
         // by looking at all question, he may leave directly as he is not interesting on any question
         return
     }
+    // would do other after viewing. view all would be in loop again. 
     var r = JSON.parse(body);
     var data = r.data;
     var i = Math.floor(Math.random()*data.length);
     var ref_id = vars.ref_id;
     var p = Math.random();
-    if (p > ps.interst_single){
+    if (p > ps.p_vpr_vp){
         // user may be interest on a particular question.            
         // user may also be always focused on a particular question after login ????
         myutil.info(i, p);
         var msg = data[i];
         var p = Math.random();
-        if (p > ps.interst_reply){
+        if (p > ps.p_vpr_vp_vr){
             if (ref_id == "" && vars.content=="replys"){
                 myutil.error("hello", vars);
             }
@@ -165,7 +184,7 @@ function question_view_response_process(callback, vars, response, body){
         } else {
             // by looking at other question and reply, user may be interesting to create a question or reply
             var p = Math.random();
-            if (p > ps.question_new_question) {
+            if (p > ps.p_vpr_vp_nq) {
                 // ask a new question after looking others. 
                 question_create("");
             } else {
@@ -188,7 +207,7 @@ var i = 0;
 function loop(){
     myutil.info('loop:'+i);
     var p = Math.random();
-    if (p > ps.new_question) { 
+    if (p > ps.p_nq) { 
         // user may create question directly. 
         question_create('');
     } else {

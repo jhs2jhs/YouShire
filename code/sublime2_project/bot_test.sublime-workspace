@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"so",
+				"socket"
+			],
+			[
+				"info",
+				"info_window"
+			],
+			[
+				"in",
+				"is_shown"
+			],
+			[
+				"to",
+				"toString"
+			],
+			[
+				"question_re",
+				"question_replys_count"
+			],
+			[
+				"inter",
+				"interst_reply"
+			],
+			[
 				"find",
 				"find_limit"
 			]
@@ -12,34 +36,18 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/jianhuashao/github/YouShire/code/app.js",
-			"settings":
-			{
-				"buffer_size": 1312,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jianhuashao/github/YouShire/code/routes/observer.js",
-			"settings":
-			{
-				"buffer_size": 541,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/observer_question.js",
-			"settings":
-			{
-				"buffer_size": 3192,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "/Users/jianhuashao/github/YouShire/code/routes/db.js",
 			"settings":
 			{
-				"buffer_size": 4404,
+				"buffer_size": 5000,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/views/layout.jade",
+			"settings":
+			{
+				"buffer_size": 252,
 				"line_ending": "Unix"
 			}
 		},
@@ -52,42 +60,10 @@
 			}
 		},
 		{
-			"file": "/Users/jianhuashao/github/YouShire/code/views/layout.jade",
-			"settings":
-			{
-				"buffer_size": 187,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "/Users/jianhuashao/github/YouShire/code/views/create_question.jade",
 			"settings":
 			{
 				"buffer_size": 659,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jianhuashao/github/YouShire/code/routes/myutil.js",
-			"settings":
-			{
-				"buffer_size": 219,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jianhuashao/github/YouShire/code/views/view_question_single.jade",
-			"settings":
-			{
-				"buffer_size": 2014,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jianhuashao/github/YouShire/code/views/view_question.jade",
-			"settings":
-			{
-				"buffer_size": 686,
 				"line_ending": "Unix"
 			}
 		},
@@ -100,10 +76,10 @@
 			}
 		},
 		{
-			"file": "/Users/jianhuashao/github/YouShire/code/bot.js",
+			"file": "/Users/jianhuashao/github/YouShire/code/views/observer_question.jade",
 			"settings":
 			{
-				"buffer_size": 2819,
+				"buffer_size": 808,
 				"line_ending": "Unix"
 			}
 		},
@@ -111,26 +87,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/routes/action.js",
 			"settings":
 			{
-				"buffer_size": 5974,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jianhuashao/github/YouShire/code/routes/sio.js",
-			"settings":
-			{
-				"buffer_size": 1216,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "doctype 5\nhtml\n  head  \n    title= title\n    link(rel='stylesheet', href='/stylesheets/style.css')\n    script(src='/socket.io/socket.io.js')\n    script(type='text/javascript').\n      function hello(){\n        //var tag = document.getElementById('myp');\n        //tag.value = \"cool\";\n        console.dir(location.host);\n        //var socket = io.connect('http://192.168.1.102:3000');\n        var socket = io.connect(location.origin);\n        socket.on('news', function (data) {\n          console.log(data);\n          //window.alert('hello');\n          var tag = document.getElementById('myp');\n          tag.value = data.time;\n          console.log(tag.value);\n          socket.emit('my other event', { my: 'data' });\n        });\n      } \n  body(onload=\"hello();\") \n    h1 Socket.IO test \n    a(href='/view/question/') View all question\n    div(id='mydiv')\n      textarea(id='myp')\n      ",
-			"file": "/Users/jianhuashao/github/YouShire/code/views/sio_test.jade",
-			"file_size": 886,
-			"file_write_time": 1373208190000000,
-			"settings":
-			{
-				"buffer_size": 887,
+				"buffer_size": 6363,
 				"line_ending": "Unix"
 			}
 		},
@@ -151,10 +108,93 @@
 			}
 		},
 		{
+			"file": "/Users/jianhuashao/github/YouShire/code/routes/myutil.js",
+			"settings":
+			{
+				"buffer_size": 493,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/routes/sio.js",
+			"settings":
+			{
+				"buffer_size": 3334,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/views/layout_sio.jade",
+			"settings":
+			{
+				"buffer_size": 229,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/views/view_question.jade",
+			"settings":
+			{
+				"buffer_size": 686,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "doctype 5\nhtml\n  head  \n    title= title\n    link(rel='stylesheet', href='/stylesheets/style.css')\n    script(src='/socket.io/socket.io.js')\n    script(type='text/javascript').\n      function hello(){\n        //var tag = document.getElementById('myp');\n        //tag.value = \"cool\";\n        console.dir(location.host);\n        //var socket = io.connect('http://192.168.1.102:3000');\n        var socket = io.connect(location.origin);\n        socket.on('news', function (data) {\n          console.log(data);\n          //window.alert('hello');\n          var tag = document.getElementById('myp');\n          tag.value = data.time;\n          console.log(tag.value);\n          socket.emit('my other event', { my: 'data' });\n        });\n      } \n  body(onload=\"hello();\") \n    h1 Socket.IO test \n    a(href='/view/question/') View all question\n    div(id='mydiv')\n      textarea(id='myp')\n      ",
+			"file": "/Users/jianhuashao/github/YouShire/code/views/sio_test.jade",
+			"file_size": 886,
+			"file_write_time": 1373208190000000,
+			"settings":
+			{
+				"buffer_size": 887,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/views/view_question_single.jade",
+			"settings":
+			{
+				"buffer_size": 2117,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/bot.js",
+			"settings":
+			{
+				"buffer_size": 6519,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/app.js",
+			"settings":
+			{
+				"buffer_size": 1312,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/routes/observer.js",
+			"settings":
+			{
+				"buffer_size": 698,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/observer_question.js",
+			"settings":
+			{
+				"buffer_size": 5503,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/replys.js",
 			"settings":
 			{
-				"buffer_size": 421,
+				"buffer_size": 1082,
 				"line_ending": "Unix"
 			}
 		}
@@ -183,8 +223,9 @@
 	},
 	"file_history":
 	[
-		"/Users/jianhuashao/github/YouShire/code/views/observer_question.jade",
+		"/Users/jianhuashao/github/YouShire/code/views/layout_sio",
 		"/Users/jianhuashao/github/YouShire/code/views/layout.jade",
+		"/Users/jianhuashao/github/YouShire/code/views/observer_question.jade",
 		"/Users/jianhuashao/github/YouShire/code/sublime2_project/bot_test.sublime-project",
 		"/Users/jianhuashao/github/YouShire/code/bot copy.js",
 		"/Users/jianhuashao/Dropbox/Apps/scriptogram/google_app_engine/app.yaml"
@@ -205,6 +246,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"question_create",
+			"sio_question_view",
+			"data",
+			"error",
+			"console",
+			"mylat",
+			"warm",
+			"debug",
 			"latlng",
 			"){",
 			"('');\n",
@@ -236,56 +285,54 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/jianhuashao/github/YouShire/code/app.js",
+					"file": "/Users/jianhuashao/github/YouShire/code/routes/db.js",
 					"settings":
 					{
-						"buffer_size": 1312,
+						"buffer_size": 5000,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								173,
-								173
+								2835,
+								2835
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 7.0,
+						"translation.y": 969.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/Users/jianhuashao/github/YouShire/code/routes/observer.js",
+					"file": "/Users/jianhuashao/github/YouShire/code/views/layout.jade",
 					"settings":
 					{
-						"buffer_size": 541,
+						"buffer_size": 252,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								536,
-								536
+								252,
+								252
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -295,60 +342,6 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/observer_question.js",
-					"settings":
-					{
-						"buffer_size": 3192,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								359,
-								359
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/jianhuashao/github/YouShire/code/routes/db.js",
-					"settings":
-					{
-						"buffer_size": 4404,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2812,
-								2812
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1150.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "/Users/jianhuashao/github/YouShire/code/views/modify_question_get.jade",
 					"settings":
 					{
@@ -376,33 +369,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "/Users/jianhuashao/github/YouShire/code/views/layout.jade",
-					"settings":
-					{
-						"buffer_size": 187,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								187,
-								187
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
+					"buffer": 3,
 					"file": "/Users/jianhuashao/github/YouShire/code/views/create_question.jade",
 					"settings":
 					{
@@ -413,90 +380,8 @@
 						"selection":
 						[
 							[
-								15,
-								15
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/Users/jianhuashao/github/YouShire/code/routes/myutil.js",
-					"settings":
-					{
-						"buffer_size": 219,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								219,
-								219
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/Users/jianhuashao/github/YouShire/code/views/view_question_single.jade",
-					"settings":
-					{
-						"buffer_size": 2014,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								514,
-								514
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/Users/jianhuashao/github/YouShire/code/views/view_question.jade",
-					"settings":
-					{
-						"buffer_size": 686,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								213,
-								213
+								421,
+								421
 							]
 						],
 						"settings":
@@ -514,11 +399,11 @@
 			]
 		},
 		{
-			"selected": 7,
+			"selected": 2,
 			"sheets":
 			[
 				{
-					"buffer": 10,
+					"buffer": 4,
 					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/gmap_test.html",
 					"settings":
 					{
@@ -546,47 +431,46 @@
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "/Users/jianhuashao/github/YouShire/code/bot.js",
+					"buffer": 5,
+					"file": "/Users/jianhuashao/github/YouShire/code/views/observer_question.jade",
 					"settings":
 					{
-						"buffer_size": 2819,
+						"buffer_size": 808,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1604,
-								1604
+								533,
+								533
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 547.0,
+						"translation.y": 3.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 6,
 					"file": "/Users/jianhuashao/github/YouShire/code/routes/action.js",
 					"settings":
 					{
-						"buffer_size": 5974,
+						"buffer_size": 6363,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4233,
-								4233
+								4620,
+								4620
 							]
 						],
 						"settings":
@@ -594,68 +478,13 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2110.0,
+						"translation.y": 2188.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "/Users/jianhuashao/github/YouShire/code/routes/sio.js",
-					"settings":
-					{
-						"buffer_size": 1216,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								475,
-								475
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "/Users/jianhuashao/github/YouShire/code/views/sio_test.jade",
-					"settings":
-					{
-						"buffer_size": 887,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								737,
-								737
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 15,
+					"buffer": 7,
 					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/gmap.js",
 					"settings":
 					{
@@ -683,7 +512,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 8,
 					"file": "/Users/jianhuashao/github/YouShire/code/views/create_question_gmap.jade",
 					"settings":
 					{
@@ -694,8 +523,121 @@
 						"selection":
 						[
 							[
-								483,
-								483
+								212,
+								212
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 6,
+			"sheets":
+			[
+				{
+					"buffer": 9,
+					"file": "/Users/jianhuashao/github/YouShire/code/routes/myutil.js",
+					"settings":
+					{
+						"buffer_size": 493,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								263,
+								263
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/Users/jianhuashao/github/YouShire/code/routes/sio.js",
+					"settings":
+					{
+						"buffer_size": 3334,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								255,
+								255
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/Users/jianhuashao/github/YouShire/code/views/layout_sio.jade",
+					"settings":
+					{
+						"buffer_size": 229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								155,
+								155
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "/Users/jianhuashao/github/YouShire/code/views/view_question.jade",
+					"settings":
+					{
+						"buffer_size": 686,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								258,
+								258
 							]
 						],
 						"settings":
@@ -711,19 +653,191 @@
 					"type": "text"
 				},
 				{
-					"buffer": 17,
-					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/replys.js",
+					"buffer": 13,
+					"file": "/Users/jianhuashao/github/YouShire/code/views/sio_test.jade",
 					"settings":
 					{
-						"buffer_size": 421,
+						"buffer_size": 887,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								378,
-								378
+								505,
+								505
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "/Users/jianhuashao/github/YouShire/code/views/view_question_single.jade",
+					"settings":
+					{
+						"buffer_size": 2117,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								196
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "/Users/jianhuashao/github/YouShire/code/bot.js",
+					"settings":
+					{
+						"buffer_size": 6519,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5646,
+								5646
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2500.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 16,
+					"file": "/Users/jianhuashao/github/YouShire/code/app.js",
+					"settings":
+					{
+						"buffer_size": 1312,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								173,
+								173
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "/Users/jianhuashao/github/YouShire/code/routes/observer.js",
+					"settings":
+					{
+						"buffer_size": 698,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								330,
+								330
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/observer_question.js",
+					"settings":
+					{
+						"buffer_size": 5503,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4136,
+								4136
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1945.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/replys.js",
+					"settings":
+					{
+						"buffer_size": 1082,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								130,
+								130
 							]
 						],
 						"settings":
@@ -736,16 +850,6 @@
 					},
 					"type": "text"
 				}
-			]
-		},
-		{
-			"sheets":
-			[
-			]
-		},
-		{
-			"sheets":
-			[
 			]
 		}
 	],
@@ -789,13 +893,13 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.438975761372,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.5,
+			0.143633934145,
 			1.0
 		]
 	},

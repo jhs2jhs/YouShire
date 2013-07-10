@@ -8,6 +8,15 @@ bot.js : is to simulate how users would interact in question creating and replyi
 user management: 
 
 
+## DEMOs
+1. /view/question_all/: to view all user-related questions. 
+2. /view/question_single/?m_id…: to view replys to a a questions. 
+3. /create/question/: to create a question with gmap to locate the latlng, if it is on mobile, then it would automatically identified. 
+4. reply. 
+5. user interaction simulation:
+6. 
+
+
 
 ## INFO
 

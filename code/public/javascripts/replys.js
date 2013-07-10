@@ -7,7 +7,7 @@ function loadScript(){
 	var div_m_id = document.getElementById("question_id");
 	var m_id = div_m_id.value;
 	console.log(m_id);
-	socket.emit('question_replys_list_request', {time:new Date().toString(), m_id:m_id});
+	socket.emit('question_list_request', {results_scope:"question_replys", time:new Date().toString(), m_id:m_id});
 	socket.on("question_replys_list_response", function(data){
 		console.log(data)
 		var div = document.getElementById("question_replys_list");

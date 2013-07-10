@@ -1,7 +1,8 @@
 var myLatLng;
 var map;
-var markers = {};
-var infowindows = {};
+var markers = [];
+var socket;
+var flag_auto_load = false;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -20,7 +21,7 @@ function initialize() {
 function initialize_local(){
     var mapOptions = {
 		center: myLatLng,
-		zoom: 8,
+		zoom: 10,
 		panControl:true,
         zoomControl:true,
         mapTypeControl:true,
@@ -38,35 +39,59 @@ function initialize_local(){
         title:'click on the map to locate your object'
     });
 
-    sio_register();
+    socket = io.connect(location.origin);
+    sio_question_view();
 }
 
+function buttom_empty_db(){
+    socket.emit("modify_question_request", {results_scope:"question_delete_all", qry_lmt:0, time:new Date()});
+}
 
-function sio_register(){
-	var socket = io.connect(location.origin);
-	socket.on('news', function (data) {
-		console.log(data);
-        socket.emit('my other event', { my: 'data' });
-    }); 
-    socket.on("question_init", function(data){
-    	console.log("question_init", data);
-    	socket.emit("question_list_request", {time:new Date()});
+function buttom_load_once(){
+    //socket = io.connect(location.origin);
+    flag_auto_load = false;
+    emit_view_question_request();
+}
+
+function buttom_load_auto_on(){
+    //socket = io.connect(location.origin);
+    flag_auto_load = true;
+    emit_view_question_request();
+}
+function buttom_load_auto_off(){
+    flag_auto_load = false;
+}
+
+function latlng_parse(m_latlng){
+    var latlng_str = m_latlng.replace("(", "").replace(")", "").split(",");
+    var lat = parseFloat(latlng_str[0]);
+    var lng = parseFloat(latlng_str[1]);
+    var m_latlng = new google.maps.LatLng(lat, lng);
+    return m_latlng;
+}
+
+function emit_view_question_request(){
+    socket.emit("view_question_request", {results_scope:"question_all", qry_lmt:0, time:new Date()});
+}
+
+function sio_question_view(){
+    //var socket = io.connect(location.origin);
+    socket.on("modify_question_delete_all_response", function(data){
+        console.log("buttom: empty ", data.data, flag_auto_load);
     });
-    socket.on("question_list_response", function(data){
-    	console.log("question_list_response", data);
-    	var msgs = data.results;
+    socket.on("view_question_all_response", function(data){
+        console.log(socket.socket.connected);
+    	var msgs = data.data;
+        var marker_ids = [];
     	for (i in msgs) {
     		msg = msgs[i];
     		m_id = msg._id;
-    		m_latlng = msg.latlng;
-    		m_ref_id = msg.refID;
+    		//m_ref_id = msg.refID;
     		m_tags = msg.tags;
     		m_title = msg.title;
-    		m_body = msg.body;
-    		var latlng_str = m_latlng.replace("(", "").replace(")", "").split(",");
-    		var lat = parseFloat(latlng_str[0]);
-    		var lng = parseFloat(latlng_str[1]);
-    		var m_latlng = new google.maps.LatLng(lat, lng);
+    		//m_body = msg.body;
+    		m_latlng = latlng_parse(msg.latlng);
+            marker_ids[m_id] = true;
     		if (markers[m_id] == undefined) {
     			var marker = new google.maps.Marker({
     				position: m_latlng,
@@ -75,34 +100,73 @@ function sio_register(){
     				animation:google.maps.Animation.DROP
     			});
     			marker.m_id = m_id;
-    			marker.m_ref_id = m_ref_id;
+    			//marker.m_ref_id = m_ref_id;
     			marker.m_tags = m_tags;
     			marker.m_title = m_tags;
-    			marker.m_body = m_body;
+    			//marker.m_body = m_body;
+                marker.info_window = undefined;
     			markers[m_id] = marker;
-    			var infowindow = new google.maps.InfoWindow({content:m_title});
-    			infowindow.is_shown = false;
-    			marker.info_window = infowindow;
-    			infowindows[m_id] = infowindow;
-    			google.maps.event.addListener(marker, 'click', function(event){
-    				// this keyword is used to refer to marker object. 
-    				if (this.info_window.is_shown == false) {
-    					this.info_window.open(map, this);
-    					this.info_window.is_shown = true;
-    				} else {
-    					this.info_window.close();
-    					this.info_window.is_shown = false;
-    				}
-    			});
     		} else {
     			markers[m_id].setPosition(m_latlng);
     		}
     	}
-    	setTimeout(sio_question_list_request, 5000);
+        for (i in markers) {
+            marker = markers[i];
+            if (marker_ids[marker.m_id] == true){
+                continue
+            } else {
+                marker.setMap(null);
+                marker = null;
+            }
+        }
+        socket.emit("view_question_request", {results_scope:"question_replys_count", qry_lmt:0, time:new Date()});
+    });
+    socket.on("view_question_replys_count_response", function(data){
+        //console.log("view_question_replys_count_response", data);
+        var msgs = data.data;
+        for (i in msgs) {
+            msg = msgs[i];
+            m_ref_id = msg._id;
+            m_count = msg.count;
+            var marker = markers[m_ref_id];
+            if (marker == undefined) {
+                console.log("marker undefined", m_ref_id);
+                continue;
+            }
+            if (marker.info_window == undefined) {
+                var infowindow = new google.maps.InfoWindow({
+                    content:m_count.toString(),
+                    maxWidth:1,
+                });
+                infowindow.is_shown = true;
+                infowindow.open(map, marker);
+                infowindow.m_count = m_count.toString();
+                marker.info_window = infowindow;
+            } else {
+                var infowindow = marker.info_window;
+                if (infowindow.m_count != m_count.toString()){
+                    infowindow.m_count = m_count.toString();
+                    infowindow.setContent(m_count.toString());
+                    //infowindow.is_shown = true;
+                    infowindow.open(map, marker);
+                } else {
+                    //infowindow.is_shown = false;
+                    infowindow.close();
+                }
+                
+            }
+            // also need to check if the reply is finished all, so need to remove from map.
+        }
+        console.log("buttom auto load: ", flag_auto_load);
+        if (flag_auto_load == true) {
+            setTimeout(sio_question_list_request, 2000);
+        }   
     });
     function sio_question_list_request(){
-		socket.emit("question_list_request", {time:new Date()});
-	}	
+        console.log("===========");
+        if (flag_auto_load == true) {
+            socket.emit("view_question_request", {results_scope:"question_all", qry_lmt:0, time:new Date()});
+        }
+    }
+    
 }
-
-

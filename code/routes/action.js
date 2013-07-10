@@ -104,7 +104,7 @@ function action_view(req_obj){
     switch (req_obj.content.toLowerCase()) {
     	case 'question_all':
 			req_obj.render_page = "view_question";
-			req_obj.qry_obj = {};
+			req_obj.qry_obj = {refID:""};
 			db.db_opt(db.question_view_all, req_obj);
 			break
 		case 'question_limit':
@@ -157,7 +157,8 @@ function action_create(req_obj){
 			var tags = req_obj.req.param('tags');
 			var latlng = req_obj.req.param('latlng');
 			var ref_id = req_obj.req.param('ref_id');
-			myutil.debug("reply");
+			myutil.debug(req_obj.req.query);
+			myutil.debug("reply", ref_id);
 			req_obj.qry_obj = {refID:new ObjectID(ref_id), title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
 			db.db_opt(db.question_create_replay, req_obj);
 			break
@@ -167,7 +168,7 @@ function action_create(req_obj){
 
 function action_modify(req_obj){
     req_obj.m_id = req_obj.req.param('m_id');
-    if (req_obj.m_id == undefined){
+    if (req_obj.m_id == undefined && req_obj.content.toLowerCase() != "question_delete_all"){
 		req_obj.res.send("action and content is setted, but query m_id is not setted");
     }
     switch (req_obj.content.toLowerCase()) {
@@ -180,6 +181,11 @@ function action_modify(req_obj){
     		req_obj.redirect = '/view/question_all/?reply_type='+req_obj.reply_type;
 			req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
 			db.db_opt(db.question_modify_delete, req_obj);
+			break
+		case 'question_delete_all':
+    		req_obj.redirect = '/view/question_all/?reply_type='+req_obj.reply_type;
+			req_obj.qry_obj = {};
+			db.db_opt(db.question_modify_delete_all, req_obj);
 			break
     	case 'question_save':
     	    req_obj.redirect = '/view/question_single/?reply_type='+req_obj.reply_type+"&m_id="+req_obj.m_id;

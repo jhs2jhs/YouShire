@@ -70,6 +70,14 @@ exports.question_view_replys = function(db, req_obj){
 	    reply_abst(db, req_obj);
     });
 }
+exports.question_view_replys_count = function(db, req_obj){
+    var collection = db.collection("question");
+    collection.aggregate(req_obj.qry_obj, function(err, results){
+		db.close();
+	    req_obj.reply_results = {info:global_info, data:results};
+	    reply_abst(db, req_obj);
+    });
+}
 //////////// 
 
 /*
@@ -84,6 +92,14 @@ exports.question_modify_get = function(db, req_obj){
     });
 }
 exports.question_modify_delete = function(db, req_obj){
+    var collection = db.collection("question");
+    collection.remove(req_obj.qry_obj, {w:1}, function(err, numberOfRemoved){
+		db.close();
+		req_obj.reply_results = {info:global_info, data:numberOfRemoved};
+		reply_abst(db, req_obj);
+    });
+}
+exports.question_modify_delete_all = function(db, req_obj){
     var collection = db.collection("question");
     collection.remove(req_obj.qry_obj, {w:1}, function(err, numberOfRemoved){
 		db.close();

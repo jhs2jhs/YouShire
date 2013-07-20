@@ -20,6 +20,18 @@ user management:
 
 ## INFO
 
+installs:
+
+1. nodejs: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
+2. mongodb: http://docs.mongodb.org/manual/installation/
+
+runs: 
+
+1. install depedence: npm install
+2. run nodejs monitoring: supervisor app.js
+3. run simulator: node bot.js
+
+
 create architecture:
 >$ express
 

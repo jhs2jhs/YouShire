@@ -4,6 +4,7 @@ var ObjectID = require('mongodb').ObjectID;
 var myutil = require("./myutil.js");
 
 
+
 // wrapper function for all main entrance
 exports.db_opt = function(db_cp, req_obj){
     MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
@@ -11,6 +12,15 @@ exports.db_opt = function(db_cp, req_obj){
 		db_cp(db, req_obj)
     });
 }
+
+// user management
+exports.user_find_one = function(db, req_obj){
+	var collection = db.collection("user");
+    collection.findOne(req_obj.qry_obj, function(err, usr){
+    	req_obj.callback(err, usr, req_obj);
+    });
+}
+
 // abstract function to process for reply back.
 function reply_abst(db, req_obj){
 	if (req_obj.results_callback == undefined){ // like external request

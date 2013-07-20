@@ -12,6 +12,8 @@
     "socket.io":"*",
     "request":"*",
     "colors":"*",
-    "tracer":"*"
+    "tracer":"*",
+    "passport": "*",
+    "passport-local": "*"
   }
 }

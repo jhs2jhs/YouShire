@@ -64,20 +64,29 @@ function deserialize_user_cp (err, user, req_obj){
 /*
  *
  */
-exports.authenticate_local = function(req, res){
-  //myutil.debug(req);
-  myutil.error(req.user.username);
-  myutil.error(req.user);
-  //res.send(req.user, req.session);
-  res.redirect('/cool_user/');
-};
 exports.serialize_user = serialize_user;
 exports.deserialize_user = deserialize_user;
 
-exports.hello_user = function(req, res){
+exports.logout = function(req, res){
+  req.logout();
+  res.redirect('/');
+};
+exports.login_get = function(req, res){
+  res.render("login");
+  //res.send("<html><body><a href='http://localhost:3000/users?username=hello&password=worldw'>login</body></html>");
+};
+exports.login_post = function(req, res){
+
+};
+
+exports.login_test = function(req, res){
   myutil.debug(req.user, req.session);
   res.send(req.user);
 };
+
+exports.profile = function(req, res){
+  
+}
 
 exports.list = function(req, res){
   res.send("respond with a resource");

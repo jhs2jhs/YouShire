@@ -14,6 +14,7 @@ var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var db = require("./routes/db.js");
 var myutil = require("./routes/myutil");
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
 var app = express();
 
@@ -23,13 +24,12 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-
 app.use(express.methodOverride());
 // for passport
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
-app.use(express.session({cookie: {maxAge:360000}, secret:"keyboard cat"}));
+app.use(express.session({cookie: {maxAge:360000000}, secret:"keyboard cat"}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
@@ -37,31 +37,22 @@ passport.use(user.my_passport_local_strategy());
 passport.serializeUser(user.serialize_user);
 passport.deserializeUser(user.deserialize_user);
 
-/*
-passport.deserializeUser(function(id, done){
-  myutil.debug("deserialize_user");
-  var req_obj = {};
-  req_obj.qry_obj = {_id: id };
-  req_obj.callback = deserialize_user_cp;
-  req_obj.done = done;
-  return db.db_opt(db.user_find_one, req_obj);
-});*/
-
-
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
 // routing allocation, ** here is the only place to modify the source code.**
-app.get("/users", passport.authenticate('local', {successRedirect:"/cool_user/"}), user.authenticate_local);
-app.get("/cool_user/", user.hello_user);
-//app.get('/', routes.index);
-//app.all('/observer/:content/', passport.authenticate('local'), observer.action);
-app.all('/observer/:content/', observer.action);
-app.all('/:action/:content/', actions.action);
+app.get('/', routes.index);
+app.get("/logout", user.logout);
+app.get("/login", user.login_get);
+app.post("/login", passport.authenticate("local", { successReturnToOrRedirect: '/', failureRedirect: '/login' }))
+app.get("/login_test/", ensureLoggedIn('/login'), user.login_test);
 
+app.all('/user/:user_id/', ensureLoggedIn('/login'), user.profile);
+
+app.all('/observer/:content/', ensureLoggedIn('/login'), observer.action);
+app.all('/:action/:content/', ensureLoggedIn('/login'), actions.action);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

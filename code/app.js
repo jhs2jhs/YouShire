@@ -55,7 +55,7 @@ if ('development' == app.get('env')) {
 }
 
 // routing allocation, ** here is the only place to modify the source code.**
-app.get("/users", passport.authenticate('local'), user.authenticate_local);
+app.get("/users", passport.authenticate('local', {successRedirect:"/cool_user/"}), user.authenticate_local);
 app.get("/cool_user/", user.hello_user);
 //app.get('/', routes.index);
 //app.all('/observer/:content/', passport.authenticate('local'), observer.action);

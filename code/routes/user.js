@@ -7,6 +7,7 @@ var db = require("./db.js");
 var LocalStrategy = require('passport-local').Strategy;
 var passport = require("passport");
 var myutil = require("./myutil.js");
+var ObjectID = require("mongodb").ObjectID;
 
 /*
  * test http://localhost:3000/users?username=hello&password=world
@@ -48,14 +49,15 @@ function serialize_user (user, done) {
 function deserialize_user (id, done) {
   myutil.debug("deserialize_user");
   var req_obj = {};
-  req_obj.qry_obj = {_id: id };
+  req_obj.qry_obj = {_id: new ObjectID(id) };
   req_obj.callback = deserialize_user_cp;
   req_obj.done = done;
+  myutil.debug("req_obj", req_obj);
   return db.db_opt(db.user_find_one, req_obj);
 }
-function deserialize_user_cp (err, usr, req_obj){
-  myutil.debug("deserialize_user_cp");
-  req_obj.done(err, usr);
+function deserialize_user_cp (err, user, req_obj){
+  myutil.debug("deserialize_user_cp", err, user);
+  req_obj.done(err, user);
 }
 
 
@@ -66,12 +68,14 @@ exports.authenticate_local = function(req, res){
   //myutil.debug(req);
   myutil.error(req.user.username);
   myutil.error(req.user);
-  res.send(req.user);
+  //res.send(req.user, req.session);
+  res.redirect('/cool_user/');
 };
 exports.serialize_user = serialize_user;
 exports.deserialize_user = deserialize_user;
 
 exports.hello_user = function(req, res){
+  myutil.debug(req.user, req.session);
   res.send(req.user);
 };
 

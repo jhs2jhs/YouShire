@@ -84,8 +84,8 @@ exports.login_test = function(req, res){
   res.send(req.user);
 };
 
-exports.profile = function(req, res){
-  
+exports.user_profile = function(req, res){
+
 }
 
 exports.list = function(req, res){

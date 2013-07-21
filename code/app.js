@@ -15,6 +15,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var db = require("./routes/db.js");
 var myutil = require("./routes/myutil");
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+var MongoStore = require("connect-mongo")(express);
 
 var app = express();
 
@@ -29,7 +30,14 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
-app.use(express.session({cookie: {maxAge:360000000}, secret:"keyboard cat"}));
+app.use(express.session({
+  cookie: {maxAge:3600000}, 
+  secret:"keyboard cat",
+  store: new MongoStore({
+    url: db.mongodb_url+"/sessions"
+  })
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
@@ -49,7 +57,7 @@ app.get("/login", user.login_get);
 app.post("/login", passport.authenticate("local", { successReturnToOrRedirect: '/', failureRedirect: '/login' }))
 app.get("/login_test/", ensureLoggedIn('/login'), user.login_test);
 
-app.all('/user/:user_id/', ensureLoggedIn('/login'), user.profile);
+app.all('/user/:user_id/', ensureLoggedIn('/login'), user.user_profile);
 
 app.all('/observer/:content/', ensureLoggedIn('/login'), observer.action);
 app.all('/:action/:content/', ensureLoggedIn('/login'), actions.action);

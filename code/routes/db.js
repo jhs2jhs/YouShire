@@ -3,11 +3,12 @@ var MongoClient = require('mongodb').MongoClient
 var ObjectID = require('mongodb').ObjectID;
 var myutil = require("./myutil.js");
 
-
+var mongodb_url = "mongodb://127.0.0.1:27017/youshare";
+exports.mongodb_url = mongodb_url;
 
 // wrapper function for all main entrance
 exports.db_opt = function(db_cp, req_obj){
-    MongoClient.connect('mongodb://127.0.0.1:27017/youshare', function(err, db){
+    MongoClient.connect(mongodb_url, function(err, db){
 		if (err) throw err;
 		db_cp(db, req_obj)
     });

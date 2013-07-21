@@ -1,11 +1,12 @@
 doctype 5
 html
-  head  
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    div
-      a(href='/view/question_all/') View all question
-      a(href='/modify/question_delete_all/') Delete all question
-    block content
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+		p Hi, #{user? (user.username? user.username : "guest") : "guest"}
+		div
+			a(href='/view/question_all/') View all question
+			a(href='/modify/question_delete_all/') Delete all question
+		block content
 

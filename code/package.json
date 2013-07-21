@@ -15,6 +15,7 @@
     "tracer":"*",
     "passport": "*",
     "passport-local": "*",
-    "connect-ensure-login":"*"
+    "connect-ensure-login":"*",
+    "connect-mongo":"*"
   }
 }

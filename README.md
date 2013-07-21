@@ -7,6 +7,9 @@ bot.js : is to simulate how users would interact in question creating and replyi
 
 user management: 
 
+1. show username in the top banner. create a common method to put req.user into argument when render page. 
+2. 
+
 
 ## DEMOs
 1. /view/question_all/: to view all user-related questions. 

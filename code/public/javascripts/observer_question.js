@@ -82,6 +82,7 @@ function sio_question_view(){
     socket.on("view_question_all_response", function(data){
         console.log(socket.socket.connected);
     	var msgs = data.data;
+        //console.log(msgs);
         var marker_ids = [];
     	for (i in msgs) {
     		msg = msgs[i];
@@ -122,7 +123,7 @@ function sio_question_view(){
         socket.emit("view_question_request", {results_scope:"question_replys_count", qry_lmt:0, time:new Date()});
     });
     socket.on("view_question_replys_count_response", function(data){
-        //console.log("view_question_replys_count_response", data);
+        console.log("view_question_replys_count_response", data);
         var msgs = data.data;
         for (i in msgs) {
             msg = msgs[i];

@@ -109,6 +109,12 @@ function action_view(req_obj){
 			req_obj.qry_obj = {refID:""};
 			db.db_opt(db.question_view_all, req_obj);
 			break
+		case 'user_question_all': // for user bot
+			req_obj.render_page = "view_question";
+			req_obj.qry_obj = {refID:"", author_id:req_obj.req.user._id.toString()};
+			myutil.error(req_obj.qry_obj);
+			db.db_opt(db.question_view_all, req_obj);
+			break
 		case 'question_limit':
 			req_obj.find_limit = parseInt(req_obj.req.param('find_limit'));
 			req_obj.render_page = "view_question";
@@ -127,6 +133,13 @@ function action_view(req_obj){
     		//req_obj.render_page = "view_question_reply";
 			req_obj.m_id = req_obj.req.param('m_id');
 			req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
+			db.db_opt(db.question_view_replys, req_obj);
+			break
+		case 'user_question_replys': // for user bot
+			req_obj.reply_type = "json"; // can only reply with JSON.
+    		//req_obj.render_page = "view_question_reply";
+			req_obj.m_id = req_obj.req.param('m_id');
+			req_obj.qry_obj = {author_id:req_obj.req.user._id.toString()};
 			db.db_opt(db.question_view_replys, req_obj);
 			break
     	default:

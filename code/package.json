@@ -16,6 +16,7 @@
     "passport": "*",
     "passport-local": "*",
     "connect-ensure-login":"*",
-    "connect-mongo":"*"
+    "connect-mongo":"*",
+    "superagent":"*"
   }
 }

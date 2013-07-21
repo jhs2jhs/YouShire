@@ -39,7 +39,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/routes/db.js",
 			"settings":
 			{
-				"buffer_size": 5338,
+				"buffer_size": 5431,
 				"line_ending": "Unix"
 			}
 		},
@@ -47,7 +47,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/views/layout.jade",
 			"settings":
 			{
-				"buffer_size": 567,
+				"buffer_size": 765,
 				"line_ending": "Unix"
 			}
 		},
@@ -95,7 +95,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/routes/action.js",
 			"settings":
 			{
-				"buffer_size": 6396,
+				"buffer_size": 6999,
 				"line_ending": "Unix"
 			}
 		},
@@ -103,7 +103,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/gmap.js",
 			"settings":
 			{
-				"buffer_size": 3658,
+				"buffer_size": 3660,
 				"line_ending": "Unix"
 			}
 		},
@@ -127,7 +127,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/routes/sio.js",
 			"settings":
 			{
-				"buffer_size": 3334,
+				"buffer_size": 4008,
 				"line_ending": "Unix"
 			}
 		},
@@ -135,7 +135,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/views/layout_sio.jade",
 			"settings":
 			{
-				"buffer_size": 234,
+				"buffer_size": 740,
 				"line_ending": "Unix"
 			}
 		},
@@ -143,7 +143,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/views/view_question.jade",
 			"settings":
 			{
-				"buffer_size": 686,
+				"buffer_size": 813,
 				"line_ending": "Unix"
 			}
 		},
@@ -162,7 +162,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/views/view_question_single.jade",
 			"settings":
 			{
-				"buffer_size": 2117,
+				"buffer_size": 2251,
 				"line_ending": "Unix"
 			}
 		},
@@ -178,7 +178,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/views/user_profile.jade",
 			"settings":
 			{
-				"buffer_size": 232,
+				"buffer_size": 422,
 				"line_ending": "Unix"
 			}
 		},
@@ -226,7 +226,7 @@
 			"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/replys.js",
 			"settings":
 			{
-				"buffer_size": 1082,
+				"buffer_size": 1307,
 				"line_ending": "Unix"
 			}
 		}
@@ -329,15 +329,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/routes/db.js",
 					"settings":
 					{
-						"buffer_size": 5338,
+						"buffer_size": 5431,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								945,
-								945
+								1003,
+								1003
 							]
 						],
 						"settings":
@@ -355,20 +355,21 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/views/layout.jade",
 					"settings":
 					{
-						"buffer_size": 567,
+						"buffer_size": 765,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								128,
-								128
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 16.0,
@@ -394,7 +395,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -524,15 +526,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/routes/action.js",
 					"settings":
 					{
-						"buffer_size": 6396,
+						"buffer_size": 6999,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								372,
-								372
+								0,
+								0
 							]
 						],
 						"settings":
@@ -550,15 +552,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/gmap.js",
 					"settings":
 					{
-						"buffer_size": 3658,
+						"buffer_size": 3660,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2117,
-								2117
+								0,
+								0
 							]
 						],
 						"settings":
@@ -638,15 +640,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/routes/sio.js",
 					"settings":
 					{
-						"buffer_size": 3334,
+						"buffer_size": 4008,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								796,
-								796
+								0,
+								0
 							]
 						],
 						"settings":
@@ -665,20 +667,21 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/views/layout_sio.jade",
 					"settings":
 					{
-						"buffer_size": 234,
+						"buffer_size": 740,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								23,
-								23
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -691,15 +694,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/views/view_question.jade",
 					"settings":
 					{
-						"buffer_size": 686,
+						"buffer_size": 813,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								258,
-								258
+								0,
+								0
 							]
 						],
 						"settings":
@@ -747,15 +750,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/views/view_question_single.jade",
 					"settings":
 					{
-						"buffer_size": 2117,
+						"buffer_size": 2251,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								196,
-								196
+								0,
+								0
 							]
 						],
 						"settings":
@@ -803,20 +806,21 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/views/user_profile.jade",
 					"settings":
 					{
-						"buffer_size": 232,
+						"buffer_size": 422,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								108,
-								108
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -908,7 +912,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 694.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -974,15 +978,15 @@
 					"file": "/Users/jianhuashao/github/YouShire/code/public/javascripts/replys.js",
 					"settings":
 					{
-						"buffer_size": 1082,
+						"buffer_size": 1307,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								340,
-								340
+								0,
+								0
 							]
 						],
 						"settings":

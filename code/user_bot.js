@@ -219,7 +219,7 @@ function user_question_create(ref_id){
     var latlng = '('+lat+','+lng+')';
     var reply_type = "json";
     var vars = {};
-    myutil.error(ref_id);
+    //myutil.error(ref_id);
     if (ref_id == '' || ref_id == undefined){
         var title = 'Qqq:'+(new Date().toString());
         var body = 'this is my answer : '+ title;
@@ -295,6 +295,7 @@ function user_related_question_view(ref_id){
                 myutil.info(data.length, i);
                 var msg = data[i];// ref_id = msg._id somtime
                 vars.msg = msg;
+                if (vars.msg == undefined) {vars.msg = {}; vars.msg._id= '';}
                 vars.current_status = "user_related_question_view";
                 decision(vars);
             } else {
@@ -336,6 +337,7 @@ function user_question_view(ref_id){
                 var i = Math.floor(Math.random()*data.length);
                 var msg = data[i];
                 vars.msg = msg;
+                if (vars.msg == undefined) {vars.msg = {}; vars.msg._id= '';}
                 vars.current_status = "user_question_view";
                 decision(vars);
             } else {
@@ -368,10 +370,11 @@ function user_login(username, password){
 }
 var i = 1;
 function user_start(){
-    myutil.error(i);
     i = i +1;
-    var username = "hello";
-    var password = "world";
+    var j = Math.floor(Math.random()*100);
+    myutil.error(i, j);
+    var username = "user_"+j;
+    var password = "user_"+j;
     var p = Math.random();
     if (p > ps.p_login) {
         user_login(username, password);

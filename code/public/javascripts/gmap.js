@@ -11,7 +11,7 @@ function loadScript(){
     script.type = "text/javascript";
     script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyDy8D63AmOXbsuukgwQPF95zz93Uk-OssY&sensor=true&callback=initialize";
     document.head.appendChild(script);
-    detectBrowser();
+    //detectBrowser();
 }
 
 function detectBrowser() {

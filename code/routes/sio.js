@@ -119,7 +119,7 @@ function sio_on_question_view(socket){
 				req_obj.content = "question_replys";
 				req_obj.m_id = data.m_id;
 				req_obj.results_callback = sio_question_view;
-				req_obj.qry_obj = {author_id:data.user_id};
+				req_obj.qry_obj = {refID:{$ne:""}, author_id:data.user_id};
 				db.db_opt(db.question_view_replys, req_obj);
 				break
 			default:

@@ -11,6 +11,7 @@ URL_REQUEST_EXAMPLE = {
 	action: [view | create | modify | comment],
 	content: [question_all | question_limited | question_single],
 	reply_type: [html | json],
+	user_scope: [me | group | all],
 	results_type: [undefined | callback],
 	find_limit: [10 | n],
 	m_id: xxxxxxxxxxxxxxx,
@@ -44,6 +45,7 @@ function get_req_obj(){
 		action:undefined,
 		content:undefined,
 		reply_type:undefined,
+		user_scope:undefined,
 		results_callback:undefined,
 		find_limit:0,
 		m_id:undefined,
@@ -134,21 +136,25 @@ function action_view(req_obj){
 function action_create(req_obj){
     switch (req_obj.content.toLowerCase()) {
     	case 'question_init':
-			req_obj.res.render('create_question.jade', {});
+			req_obj.res.render('create_question.jade', {user:req_obj.req.user});
 			break
     	case 'question_init_gmap':
-			req_obj.res.render('create_question_gmap.jade', {});
+			req_obj.res.render('create_question_gmap.jade', {user:req_obj.req.user});
 			break
-    	case 'question_init_gmap_full':
-			req_obj.res.render('create_question_gmap_full.jade', {});
+    	case 'question_init_gmap_full': // it is not implemented
+			req_obj.res.render('create_question_gmap_full.jade', {user:req_obj.req.user});
 			break
     	case 'question_post':
-    		req_obj.render_page = "view_question_single";
+    		//req_obj.render_page = "view_question_single"; should be redirect
+    		req_obj.redirect = "/view/question_single/"
 			var title = req_obj.req.param('title');
 			var body = req_obj.req.param('body');
 			var tags = req_obj.req.param('tags');
 			var latlng = req_obj.req.param('latlng');
-			req_obj.qry_obj = {refID:'', title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
+			var user_id = req_obj.req.user._id.toString(); // it can be undefined, or undefined or anything. need to double check,
+			var username = req_obj.req.user.username;
+			var ref_id = '';
+			req_obj.qry_obj = {refID:ref_id, author_id:user_id, author_name: username, title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
 			db.db_opt(db.question_create, req_obj);
 			break
     	case 'question_reply':
@@ -157,9 +163,10 @@ function action_create(req_obj){
 			var tags = req_obj.req.param('tags');
 			var latlng = req_obj.req.param('latlng');
 			var ref_id = req_obj.req.param('ref_id');
-			myutil.debug(req_obj.req.query);
-			myutil.debug("reply", ref_id);
-			req_obj.qry_obj = {refID:new ObjectID(ref_id), title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
+			var user_id = req_obj.req.user._id.toString(); // it can be undefined, or undefined or anything. need to double check,
+			var username = req_obj.req.user.username;
+			req_obj.redirect = "/view/question_single/?m_id="+ref_id;
+			req_obj.qry_obj = {refID:ref_id	, author_id:user_id, author_name: username, title:title, body:body, latlng:latlng, created_at:new Date(), updated_at:new Date(), tags:tags};
 			db.db_opt(db.question_create_replay, req_obj);
 			break
     	default:

@@ -23,7 +23,7 @@ function detectBrowser() {
         mapdiv.style.height = '100%';
 	//window.alert('hello');
     } else {
-	window.alert('world');
+	//window.alert('world');
         mapdiv.style.width = '600px';
         mapdiv.style.height = '800px';
     }

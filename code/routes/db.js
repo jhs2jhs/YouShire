@@ -29,6 +29,7 @@ function reply_abst(db, req_obj){
 			req_obj.res.send(req_obj.reply_results);
 		} else { // reply_type == html
 			if (req_obj.redirect == undefined){
+				req_obj.reply_results.user = req_obj.req.user;
 				req_obj.res.render(req_obj.render_page, req_obj.reply_results);
 			} else {
 				req_obj.res.redirect(req_obj.redirect);
@@ -75,7 +76,7 @@ exports.question_view_single = function(db, req_obj){
 }
 exports.question_view_replys = function(db, req_obj){
     var collection = db.collection("question");
-    collection.find({refID:req_obj.qry_obj._id}).limit(req_obj.find_limit).toArray(function(err, results){
+    collection.find(req_obj.qry_obj).limit(req_obj.find_limit).toArray(function(err, results){
 		db.close();
 	    req_obj.reply_results = {info:global_info, data:results};
 	    reply_abst(db, req_obj);
@@ -140,6 +141,8 @@ exports.question_create = function(db, req_obj){
 	    	// this _id was already inserted in the database
 		}
 		db.close();
+		// to redirect back to correct message 
+		req_obj.redirect = req_obj.redirect+"?m_id="+objects[0]._id;
 		req_obj.reply_results = {info:global_info, data:objects};
 		reply_abst(db, req_obj);
     });

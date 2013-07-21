@@ -8,10 +8,14 @@ bot.js : is to simulate how users would interact in question creating and replyi
 user management: 
 
 1. show username in the top banner. create a common method to put req.user into argument when render page. 
-2. 
+2. object_id need to removed as reference, it should just use string instead. 
 
 
 ## DEMOs
+0. home page to login or register
+1. user_profile page to view questions related. 
+2. user initial a question.
+3. view question be initialise: the reply can not be display correctly. when view the question, the autohor_id should replaced by user name. to reply a message, should use sio to trick a event, rather than refresh the whole page. 
 1. /view/question_all/: to view all user-related questions. 
 2. /view/question_single/?m_id…: to view replys to a a questions. 
 3. /create/question/: to create a question with gmap to locate the latlng, if it is on mobile, then it would automatically identified. 

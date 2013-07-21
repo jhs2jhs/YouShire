@@ -84,6 +84,14 @@ function sio_on_question_view(socket){
 				req_obj.qry_obj = {refID:""};
 				db.db_opt(db.question_view_all, req_obj);
 				break;
+			case "user_question_all":
+				req_obj.sio.reply_event_keyword = "view_user_question_all_response";
+				req_obj.results_callback = sio_question_view;
+				req_obj.content = "user_question_all";
+				req_obj.qry_obj = {refID:"", author_id:data.user_id};
+				myutil.error(req_obj.qry_obj);
+				db.db_opt(db.question_view_all, req_obj);
+				break;
 			case "question_replys_count":
 				req_obj.sio.reply_event_keyword = "view_question_replys_count_response";
 				req_obj.results_callback = sio_question_view;
@@ -103,7 +111,15 @@ function sio_on_question_view(socket){
 				req_obj.content = "question_replys";
 				req_obj.m_id = data.m_id;
 				req_obj.results_callback = sio_question_view;
-				req_obj.qry_obj = {_id:new ObjectID(req_obj.m_id)};
+				req_obj.qry_obj = {refID:req_obj.m_id};
+				db.db_opt(db.question_view_replys, req_obj);
+				break
+			case "user_question_replys":
+				req_obj.sio.reply_event_keyword = "view_user_question_replys_list_response";
+				req_obj.content = "question_replys";
+				req_obj.m_id = data.m_id;
+				req_obj.results_callback = sio_question_view;
+				req_obj.qry_obj = {author_id:data.user_id};
 				db.db_opt(db.question_view_replys, req_obj);
 				break
 			default:

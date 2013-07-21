@@ -7,7 +7,8 @@ function loadScript(){
 	var div_m_id = document.getElementById("question_id");
 	var m_id = div_m_id.value;
 	console.log(m_id);
-	socket.emit('question_list_request', {results_scope:"question_replys", time:new Date().toString(), m_id:m_id});
+	//socket.emit('question_list_request', {results_scope:"question_replys", time:new Date().toString(), m_id:m_id});
+	socket.emit('view_question_request', {results_scope:"question_replys", time:new Date().toString(), m_id:m_id});
 	socket.on("question_replys_list_response", function(data){
 		console.log(data)
 		var div = document.getElementById("question_replys_list");
@@ -15,6 +16,7 @@ function loadScript(){
 		for (i in data.data) {
 			var msg = data.data[i];
 			console.log(msg);
+			m_author_name = msg.author_name;
     		m_id = msg._id;
     		m_latlng = msg.latlng;
     		m_ref_id = msg.refID;
@@ -25,7 +27,7 @@ function loadScript(){
     		//var lat = parseFloat(latlng_str[0]);
     		//var lng = parseFloat(latlng_str[1]);
     		//var m_latlng = new google.maps.LatLng(lat, lng);
-    		html = html + "<div> <p>"+m_id+"</div>";
+    		html = html + "<div><table><tr><td>"+m_id+"</td><td>"+m_body+"</td><td>"+m_author_name+"</td></tr></table></div>";
 		}
 		div.innerHTML = html;
 		

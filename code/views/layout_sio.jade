@@ -1,12 +1,38 @@
 doctype 5
 html
-  head  
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='/socket.io/socket.io.js')
-  body
-    div
-      a(href='/view/question_all/') View all question
-    
-    block content
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src='/socket.io/socket.io.js')
+	body
+		table
+			tr
+			- if (user) {
+				- if (user.username) {
+				td
+					| Hi, 
+					a(href="/user/#{user._id}/") #{user.username}
+				td |
+					input(type="hidden", id="user_id", value="#{user._id}")
+				td
+					a(href="/logout") Logout
+				- } else {
+				td
+					| Hi, guest
+					input(type="hidden", id="user_id", value="guest")
+				td |
+				td
+					a(href="/login") Login
+				- }
+			- } else {
+				td
+					| Hi, guest
+					input(type="hidden", id="user_id", value="guest")
+				td |
+				td
+					a(href="/login") Login
+			- }
+		//div
+		//	a(href='/view/question_all/') View all question
 
+		block content

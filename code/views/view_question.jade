@@ -3,15 +3,15 @@ extends layout
 block content
   h1 View Question
   a(href='/create/question_init/') Create A New Question
-  hr
+  div
   a(href='/create/question_init_gmap/') Create A New Question With GMap
-  hr
   table(border=1)
     tr 
       th Title
       th Body
       th LatLng
       th Tags
+      th Author
       th Action
     for r in data
       tr
@@ -19,8 +19,10 @@ block content
         td #{r.body}
         td #{r.latlng}
         td #{r.tags}
+        td #{r.author_name}
         td
           button(onclick="location.href='/view/question_single/?m_id=#{r._id}'") View
+          button(onclick="location.href='/view/question_single/?m_id=#{r._id}'") Reply
           button(onclick="location.href='/modify/question_get/?m_id=#{r._id}'") Modify
           button(onclick="location.href='/modify/question_delete/?m_id=#{r._id}'") Delete
 

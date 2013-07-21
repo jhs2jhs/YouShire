@@ -4,9 +4,35 @@ html
 		title= title
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body
-		p Hi, #{user? (user.username? user.username : "guest") : "guest"}
-		div
-			a(href='/view/question_all/') View all question
-			a(href='/modify/question_delete_all/') Delete all question
+		table
+			tr
+			- if (user) {
+				- if (user.username) {
+				td
+					| Hi, 
+					a(href="/user/#{user._id}/") #{user.username}
+					input(type="hidden", id="user_id", value="#{user._id}")
+				td |
+				td
+					a(href="/logout") Logout
+				- } else {
+				td
+					| Hi, guest
+					input(type="hidden", id="user_id", value="guest")
+				td |
+				td
+					a(href="/login") Login
+				- }
+			- } else {
+				td
+					| Hi, guest
+					input(type="hidden", id="user_id", value="guest")
+				td |
+				td
+					a(href="/login") Login
+			- }
+		//div
+		//	a(href='/view/question_all/') View all question
+		//	a(href='/modify/question_delete_all/') Delete all question
 		block content
 

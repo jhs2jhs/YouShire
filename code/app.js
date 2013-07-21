@@ -54,7 +54,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get("/logout", user.logout);
 app.get("/login", user.login_get);
-app.post("/login", passport.authenticate("local", { successReturnToOrRedirect: '/', failureRedirect: '/login' }))
+//app.post("/login", passport.authenticate("local", { successReturnToOrRedirect: '/', failureRedirect: '/login' }))
+app.post("/login", user.login_post);
 app.get("/login_test/", ensureLoggedIn('/login'), user.login_test);
 
 app.all('/user/:user_id/', ensureLoggedIn('/login'), user.user_profile);

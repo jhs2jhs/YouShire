@@ -8,6 +8,10 @@ block content
     for r in data
       input(type="hidden", id="question_id", value="#{r._id}")
       div
+        label Author_ID
+          div
+            textarea(placeholder="Author", name='user_id', disabled) #{r.author_name}
+      div
         label Title
           div
             textarea(placeholder="Title", name='title', disabled) #{r.title}
@@ -47,7 +51,7 @@ block content
       div
         form(action='/create/question_reply/', method='post')
           input(type='hidden', name='ref_id', value='#{r._id}')
-          input(type='hidden', name='reply_type', value='json')
+          input(type='hidden', name='reply_type', value='html')
           div
             label Answer
               div

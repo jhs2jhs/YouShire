@@ -75,8 +75,15 @@ exports.login_get = function(req, res){
   res.render("login");
   //res.send("<html><body><a href='http://localhost:3000/users?username=hello&password=worldw'>login</body></html>");
 };
-exports.login_post = function(req, res){
-
+exports.login_post = function(req, res, next){
+  passport.authenticate('local', function(err, user, info){
+    if (err) {return next(err);}
+    if (!user) {return res.redirect('/login');}
+    req.logIn(user, function(err){
+      if (err) {return next(err);}
+      return res.redirect('/user/'+user._id+"/");
+    });
+  })(req, res, next);
 };
 
 exports.login_test = function(req, res){
@@ -85,7 +92,7 @@ exports.login_test = function(req, res){
 };
 
 exports.user_profile = function(req, res){
-
+  res.render("user_profile", {user:req.user});
 }
 
 exports.list = function(req, res){

@@ -2,3 +2,14 @@ extends layout
 block content
 	h1= title
 	p Welcome to #{title}
+	div	
+		form(action='/login', method="post")
+			div
+				label username
+				input(type='text', name="username", )
+			div
+				label password
+				input(type="text", name="password")
+			div
+				input(type="submit", value="Login")
+	div register

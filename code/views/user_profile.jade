@@ -1,11 +1,19 @@
-extends layout
+extends layout_sio
 
 block content
-  h1 User Profile
-  div 
-  	p Questions initialised by me
-  	div(id="my_question")
-  div
-  	p Replys made by me
-  	div(id="my_replys")
+	script(type='text/javascript', src='/javascripts/user_profile.js')
+	h1 User Profile
+	a(href="/create/question_init_gmap/") Initiale a new question
+	div
+	a(href="/view/question_all/") View all question
+	div
+		h2 Questions initialised by me
+		div(id="my_questions")
+	div
+		h2 Replys made by me
+		div(id="my_replys")
+	div
+		h2 my other related questions & replys
+		div(id="my_related")
+
   

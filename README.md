@@ -13,10 +13,16 @@ user management:
 
 ## DEMOs
 0. home page to login or register
+1. node user_insert.js to insert usres. 
 1. user_profile page to view questions related. 
 2. user initial a question.
 3. view question be initialise: the reply can not be display correctly. when view the question, the autohor_id should replaced by user name. to reply a message, should use sio to trick a event, rather than refresh the whole page. 
-1. /view/question_all/: to view all user-related questions. 
+4. simulater: goto /observer/question/
+5. node user_bot.js
+
+
+1
+. /view/question_all/: to view all user-related questions. 
 2. /view/question_single/?m_id…: to view replys to a a questions. 
 3. /create/question/: to create a question with gmap to locate the latlng, if it is on mobile, then it would automatically identified. 
 4. reply. 

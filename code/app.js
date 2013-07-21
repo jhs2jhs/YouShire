@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use(express.session({
-  cookie: {maxAge:3600000}, 
+  cookie: {maxAge:360000000}, 
   secret:"keyboard cat",
   store: new MongoStore({
     url: db.mongodb_url+"/sessions"

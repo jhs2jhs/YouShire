@@ -24,6 +24,7 @@ function db_opt(username, password, callback){
 
 db_opt("hello", "world", function(){});
 db_opt("world", "hello", function(){});
+db_opt("admin", "admin", function(){});
 
 var i = 1;
 function user_loop(){
